@@ -1,7 +1,5 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const button = document.querySelector("button");
-
-  button.addEventListener("click", function () {
-    alert("Upload feature is coming in the next step!");
-  });
+document.querySelectorAll("button").forEach(button => {
+    button.addEventListener("click", () => {
+        alert("यह फीचर जल्द जोड़ा जाएगा!");
+    });
 });
