@@ -1,17 +1,67 @@
-const fileInput = document.getElementById("fileInput");
-const preview = document.getElementById("preview");
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
 
-fileInput.addEventListener("change", function () {
+body{
+    background:#f4f7fb;
+}
 
-  const file = this.files[0];
+header{
+    background:#0d6efd;
+    color:#fff;
+    text-align:center;
+    padding:25px;
+}
 
-  if (file) {
-    preview.src = URL.createObjectURL(file);
-    preview.style.display = "block";
+header h1{
+    font-size:32px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    padding:30px;
+}
+
+.card{
+    background:#fff;
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card h2{
+    margin-bottom:20px;
+}
+
+button{
+    background:#0d6efd;
+    color:#fff;
+    border:none;
+    padding:12px 24px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:#084db8;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    background:#222;
+    color:#fff;
+    margin-top:30px;
   }
-
-});
-
-document.getElementById("downloadBtn").onclick = function () {
-  alert("Download Feature Next Step");
-};
