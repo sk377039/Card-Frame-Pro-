@@ -1,1 +1,349 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English Learning Quiz</title>
 
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #1f2937;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #6b7280;
+      margin-bottom: 25px;
+    }
+
+    .score-box {
+      display: flex;
+      justify-content: space-between;
+      background: #eef6ff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      font-weight: bold;
+      color: #1e40af;
+    }
+
+    .question-box {
+      background: #f9fafb;
+      border: 2px solid #e5e7eb;
+      padding: 25px;
+      border-radius: 12px;
+    }
+
+    .question-number {
+      color: #2563eb;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .question {
+      font-size: 22px;
+      color: #111827;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+    }
+
+    .option-btn {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #d1d5db;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #374151;
+      font-size: 16px;
+      cursor: pointer;
+      text-align: left;
+      transition: 0.25s ease;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: #eff6ff;
+      border-color: #3b82f6;
+    }
+
+    .option-btn:disabled {
+      cursor: not-allowed;
+    }
+
+    .correct {
+      background: #dcfce7 !important;
+      border-color: #22c55e !important;
+      color: #166534 !important;
+    }
+
+    .wrong {
+      background: #fee2e2 !important;
+      border-color: #ef4444 !important;
+      color: #991b1b !important;
+    }
+
+    .message {
+      min-height: 25px;
+      margin-top: 18px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 17px;
+    }
+
+    .next-btn,
+    .restart-btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .next-btn:hover,
+    .restart-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .result-box {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .result-box h2 {
+      color: #1f2937;
+      margin-bottom: 15px;
+    }
+
+    .result-box p {
+      color: #4b5563;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .emoji {
+      font-size: 55px;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>English Learning Quiz</h1>
+    <p class="subtitle">अपनी English Vocabulary जाँचें</p>
+
+    <div class="score-box">
+      <span id="score">Score: 0</span>
+      <span id="progress">Question: 1 / 5</span>
+    </div>
+
+    <div id="quizBox" class="question-box">
+      <p id="questionNumber" class="question-number"></p>
+      <h2 id="question" class="question"></h2>
+
+      <div id="options" class="options"></div>
+
+      <p id="message" class="message"></p>
+
+      <button id="nextBtn" class="next-btn hidden">अगला प्रश्न</button>
+    </div>
+
+    <div id="resultBox" class="result-box hidden">
+      <div id="resultEmoji" class="emoji">🎉</div>
+      <h2>Quiz समाप्त!</h2>
+      <p id="finalScore"></p>
+      <p id="resultMessage"></p>
+      <button id="restartBtn" class="restart-btn">फिर से शुरू करें</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: 'What is the Hindi meaning of "Beautiful"?',
+        options: ["सुंदर", "तेज़", "धीमा", "कमज़ोर"],
+        answer: "सुंदर"
+      },
+      {
+        question: 'What is the English word for "पानी"?',
+        options: ["Fire", "Water", "Air", "Food"],
+        answer: "Water"
+      },
+      {
+        question: 'Choose the correct meaning of "Happy".',
+        options: ["दुखी", "खुश", "गुस्सा", "थका हुआ"],
+        answer: "खुश"
+      },
+      {
+        question: 'What is the opposite of "Big"?',
+        options: ["Tall", "Small", "Fast", "Strong"],
+        answer: "Small"
+      },
+      {
+        question: 'What is the English word for "किताब"?',
+        options: ["Pen", "Table", "Book", "Bag"],
+        answer: "Book"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = false;
+
+    const questionElement = document.getElementById("question");
+    const questionNumberElement = document.getElementById("questionNumber");
+    const optionsElement = document.getElementById("options");
+    const scoreElement = document.getElementById("score");
+    const progressElement = document.getElementById("progress");
+    const messageElement = document.getElementById("message");
+    const nextBtn = document.getElementById("nextBtn");
+    const quizBox = document.getElementById("quizBox");
+    const resultBox = document.getElementById("resultBox");
+    const finalScore = document.getElementById("finalScore");
+    const resultMessage = document.getElementById("resultMessage");
+    const resultEmoji = document.getElementById("resultEmoji");
+    const restartBtn = document.getElementById("restartBtn");
+
+    function loadQuestion() {
+      answered = false;
+      messageElement.textContent = "";
+      nextBtn.classList.add("hidden");
+      optionsElement.innerHTML = "";
+
+      const current = questions[currentQuestion];
+
+      questionNumberElement.textContent = `प्रश्न ${currentQuestion + 1}`;
+      questionElement.textContent = current.question;
+      progressElement.textContent = `Question: ${currentQuestion + 1} / ${questions.length}`;
+      scoreElement.textContent = `Score: ${score}`;
+
+      current.options.forEach(option => {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.classList.add("option-btn");
+
+        button.addEventListener("click", () => checkAnswer(button, option));
+        optionsElement.appendChild(button);
+      });
+    }
+
+    function checkAnswer(selectedButton, selectedAnswer) {
+      if (answered) return;
+
+      answered = true;
+      const correctAnswer = questions[currentQuestion].answer;
+      const allButtons = document.querySelectorAll(".option-btn");
+
+      allButtons.forEach(button => {
+        button.disabled = true;
+
+        if (button.textContent === correctAnswer) {
+          button.classList.add("correct");
+        }
+      });
+
+      if (selectedAnswer === correctAnswer) {
+        score++;
+        scoreElement.textContent = `Score: ${score}`;
+        messageElement.textContent = "सही जवाब! बहुत बढ़िया! ✅";
+        messageElement.style.color = "#16a34a";
+      } else {
+        selectedButton.classList.add("wrong");
+        messageElement.textContent = `गलत जवाब। सही उत्तर है: ${correctAnswer}`;
+        messageElement.style.color = "#dc2626";
+      }
+
+      nextBtn.classList.remove("hidden");
+
+      if (currentQuestion === questions.length - 1) {
+        nextBtn.textContent = "परिणाम देखें";
+      } else {
+        nextBtn.textContent = "अगला प्रश्न";
+      }
+    }
+
+    nextBtn.addEventListener("click", () => {
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+      } else {
+        showResult();
+      }
+    });
+
+    function showResult() {
+      quizBox.classList.add("hidden");
+      resultBox.classList.remove("hidden");
+
+      finalScore.textContent = `आपका स्कोर: ${score} / ${questions.length}`;
+
+      const percentage = (score / questions.length) * 100;
+
+      if (percentage === 100) {
+        resultEmoji.textContent = "🏆";
+        resultMessage.textContent = "शानदार! आपने सभी उत्तर सही दिए हैं।";
+      } else if (percentage >= 60) {
+        resultEmoji.textContent = "👏";
+        resultMessage.textContent = "बहुत अच्छा! थोड़ा और अभ्यास करें।";
+      } else {
+        resultEmoji.textContent = "📚";
+        resultMessage.textContent = "अभ्यास जारी रखें, आप बेहतर करेंगे!";
+      }
+    }
+
+    restartBtn.addEventListener("click", () => {
+      currentQuestion = 0;
+      score = 0;
+
+      resultBox.classList.add("hidden");
+      quizBox.classList.remove("hidden");
+
+      loadQuestion();
+    });
+
+    loadQuestion();
+  </script>
+</body>
+  </html>
